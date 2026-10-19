@@ -1,6 +1,8 @@
 .vscode/**
 test/**
 node_modules/**
+**/__pycache__/**
+**/*.py[cod]
 plan.md
 menuconfig.py
 .gitignore
