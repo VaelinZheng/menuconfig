@@ -1,0 +1,7 @@
+config LIB_NAME
+    string "Library name"
+    default "demo"
+
+config LIB_DEBUG
+    bool "Library debug"
+    depends on APP

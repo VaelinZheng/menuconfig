@@ -1,0 +1,5 @@
+config EXTRA
+    tristate "Extra feature"
+    default m
+    help
+      Discovered but never sourced by the root Kconfig.

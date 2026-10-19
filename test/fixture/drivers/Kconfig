@@ -1,0 +1,10 @@
+config DRIVER
+    bool "Demo driver"
+    default y
+    help
+      A demo driver that requires APP.
+
+config DRIVER_LEVEL
+    int "Driver level"
+    range 1 5
+    default 3

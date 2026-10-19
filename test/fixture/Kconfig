@@ -1,0 +1,21 @@
+mainmenu "Demo Project"
+
+config MODULES
+    bool "Enable loadable module support"
+    option modules
+    default y
+
+config APP
+    bool "Enable application"
+    default y
+    help
+      Master switch for the demo application.
+
+menu "Drivers"
+    depends on APP
+
+source "drivers/Kconfig"
+
+endmenu
+
+source "lib/Kconfig"

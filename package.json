@@ -1,0 +1,227 @@
+{
+  "name": "menuconfig",
+  "displayName": "Menuconfig",
+  "description": "Kconfig graphical configuration for VS Code, powered by Kconfiglib. Edit .config and generate the C header (autoconf.h).",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "kconfig",
+    "menuconfig",
+    "kernel",
+    "embedded",
+    "zephyr",
+    "esp-idf"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "workspaceContains:**/Kconfig",
+    "onCommand:menuconfig.open"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "menuconfig.open",
+        "title": "Menuconfig: Open Configuration"
+      },
+      {
+        "command": "menuconfig.openTerminalUi",
+        "title": "Menuconfig: Open Kconfiglib UI (Terminal)"
+      },
+      {
+        "command": "menuconfig.openWebview",
+        "title": "Menuconfig: Open Graphical Panel"
+      },
+      {
+        "command": "menuconfig.saveConfig",
+        "title": "Menuconfig: Save .config"
+      },
+      {
+        "command": "menuconfig.generateHeader",
+        "title": "Menuconfig: Generate C Header"
+      },
+      {
+        "command": "menuconfig.applyAndGenerate",
+        "title": "Menuconfig: Save .config and Generate Header"
+      },
+      {
+        "command": "menuconfig.reload",
+        "title": "Menuconfig: Reload Kconfig Files"
+      },
+      {
+        "command": "menuconfig.showCollected",
+        "title": "Menuconfig: Show Collected Kconfig Files"
+      },
+      {
+        "command": "menuconfig.showLog",
+        "title": "Menuconfig: Show Worker Log"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "menuconfig.open"
+        },
+        {
+          "command": "menuconfig.openTerminalUi"
+        },
+        {
+          "command": "menuconfig.openWebview"
+        },
+        {
+          "command": "menuconfig.saveConfig"
+        },
+        {
+          "command": "menuconfig.generateHeader"
+        },
+        {
+          "command": "menuconfig.applyAndGenerate"
+        },
+        {
+          "command": "menuconfig.reload"
+        },
+        {
+          "command": "menuconfig.showCollected"
+        },
+        {
+          "command": "menuconfig.showLog"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Menuconfig",
+      "properties": {
+        "menuconfig.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the Python interpreter (3.8+). Leave empty to auto-detect python, py -3 or python3."
+        },
+        "menuconfig.ui": {
+          "type": "string",
+          "enum": [
+            "kconfiglib",
+            "webview"
+          ],
+          "enumDescriptions": [
+            "Run Kconfiglib's own UI (ncurses menuconfig or Tk guiconfig) in an integrated terminal.",
+            "Use the VS Code webview panel shipped with this extension."
+          ],
+          "default": "kconfiglib",
+          "description": "Which configuration UI \"Menuconfig: Open Configuration\" launches."
+        },
+        "menuconfig.kconfiglibUi": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "menuconfig",
+            "guiconfig"
+          ],
+          "enumDescriptions": [
+            "Use the curses UI when the terminal supports it, otherwise the Tk UI.",
+            "Force the curses UI (vendor/menuconfig.py). Needs an interactive terminal.",
+            "Force the Tk UI (vendor/guiconfig.py). Opens as a separate window."
+          ],
+          "default": "auto",
+          "description": "Which Kconfiglib UI to start."
+        },
+        "menuconfig.menuconfigStyle": {
+          "type": "string",
+          "enum": [
+            "default",
+            "monochrome",
+            "aquatic"
+          ],
+          "default": "default",
+          "description": "Value of MENUCONFIG_STYLE for Kconfiglib's curses UI."
+        },
+        "menuconfig.generateHeaderAfterUi": {
+          "type": "boolean",
+          "default": true,
+          "description": "After the Kconfiglib UI exits, regenerate the C header from the saved .config."
+        },
+        "menuconfig.searchRoot": {
+          "type": "string",
+          "default": "${workspaceFolder}",
+          "description": "Directory scanned recursively for Kconfig files."
+        },
+        "menuconfig.headerPath": {
+          "type": "string",
+          "default": "${workspaceFolder}/rts_cfg.h",
+          "description": "Output path of the generated C header. The generated aggregate Kconfig and the default .config live in this directory."
+        },
+        "menuconfig.configPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path of the .config file. Leave empty to use <header directory>/.config."
+        },
+        "menuconfig.kconfigName": {
+          "type": "string",
+          "default": "Kconfig",
+          "description": "File name treated as a Kconfig file while scanning."
+        },
+        "menuconfig.aggregateName": {
+          "type": "string",
+          "default": "Kconfig.projbuild",
+          "description": "File name of the generated aggregate Kconfig."
+        },
+        "menuconfig.aggregateMode": {
+          "type": "string",
+          "enum": [
+            "roots",
+            "all"
+          ],
+          "default": "roots",
+          "enumDescriptions": [
+            "Aggregate only files that are not already pulled in by another discovered file (no duplicated menus).",
+            "Aggregate every discovered Kconfig file, exactly like menuconfig.py."
+          ],
+          "description": "How discovered Kconfig files are combined into the aggregate Kconfig."
+        },
+        "menuconfig.excludeDirs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            ".git",
+            "build",
+            "out"
+          ],
+          "description": "Directory names skipped while scanning."
+        },
+        "menuconfig.env": {
+          "type": "object",
+          "default": {},
+          "description": "Extra environment variables for Kconfiglib, e.g. {\"ARCH\": \"arm\", \"SRCARCH\": \"arm\"}. 'srctree' is set automatically."
+        },
+        "menuconfig.includeGuard": {
+          "type": "boolean",
+          "default": true,
+          "description": "Wrap the generated header in an include guard (#ifndef _<NAME>_H_)."
+        },
+        "menuconfig.saveOldConfig": {
+          "type": "boolean",
+          "default": false,
+          "description": "Keep a copy of the previous .config as .config.old when the Webview panel saves. Kconfiglib's terminal UI always writes .config.old itself."
+        },
+        "menuconfig.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the \"menuconfig\" button in the status bar. It is also hidden automatically when no folder is open."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "python test/drive_worker.py"
+  }
+}
