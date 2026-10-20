@@ -1,7 +1,7 @@
 {
   "name": "kconfig-menuconfig",
-  "displayName": "Kconfig Menuconfig by VaelinZheng",
-  "description": "Kconfig graphical configuration for VS Code, powered by Kconfiglib. Edit .config and generate the C header (autoconf.h).",
+  "displayName": "Menuconfig for VSCode",
+  "description": "Menuconfig(Kconfig) graphical configuration for VS Code.",
   "icon": "media/icon.png",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/VaelinZheng/menuconfig/issues"
   },
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "VaelinZheng",
   "license": "MIT",
   "engines": {

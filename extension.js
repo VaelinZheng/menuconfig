@@ -645,6 +645,11 @@ class MenuconfigPanel {
 let uiTerminal = null;
 
 function uiArgs(settings, uiScript) {
+  const ui = settings.kconfiglibUi === 'menuconfig'
+    ? 'curses'
+    : settings.kconfiglibUi === 'guiconfig'
+      ? 'tk'
+      : settings.kconfiglibUi;
   const args = [
     '-u',
     uiScript,
@@ -654,7 +659,7 @@ function uiArgs(settings, uiScript) {
     '--kconfig-name', settings.kconfigName,
     '--aggregate-name', settings.aggregateName,
     '--aggregate-mode', settings.aggregateMode,
-    '--ui', settings.kconfiglibUi,
+    '--ui', ui,
   ];
   for (const dir of settings.excludeDirs) {
     args.push('--exclude-dir', dir);
